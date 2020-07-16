@@ -1,3 +1,4 @@
 dist/*
 build/*
 SimpleText.egg-info/*
+pypi_apikey_creds.yaml
