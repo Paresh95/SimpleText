@@ -94,7 +94,8 @@ This outputs:
 Alternatively, one can also individually apply a preprocessing step without having to use the whole ```preprocess``` function. The functions available are:
 
 ```
-from SimpleText.preprocessor import lowercase, strip_accents, strip_punctuation, strip_url, tokenise, strip_alpha_numeric_characters, strip_stopwords, lemantization, stemming, get_ngrams
+from SimpleText.preprocessor import lowercase, strip_accents, strip_punctuation, strip_url, 
+tokenise, strip_alpha_numeric_characters, strip_stopwords, lemantization, stemming, get_ngrams
 
 lowercase("Hi again") # outputs "hi again"
 
