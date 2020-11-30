@@ -95,7 +95,7 @@ Alternatively, one can also individually apply a preprocessing step without havi
 
 ```
 from SimpleText.preprocessor import lowercase, strip_accents, strip_punctuation, strip_url, 
-tokenise, strip_alpha_numeric_characters, strip_stopwords, lemantization, stemming, get_ngrams
+tokenise, strip_alpha_numeric_characters, strip_stopwords, strip_min_max_tokens, lemantization, stemming, get_ngrams
 
 lowercase("Hi again") # outputs "hi again"
 
