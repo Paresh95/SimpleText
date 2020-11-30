@@ -111,6 +111,8 @@ strip_alpha_numeric_characters(["Hi", "again", "@", "#", "*"]) # outputs ["Hi", 
 
 strip_stopwords(["Hi", "again"], ["Hi"]) # outputs ["again"]
 
+strip_min_max_tokens(["consult", "consulting", "a"], 2, 8) # outputs ['consult']
+
 lemantization(["bats", "feet"]) # outputs ["bat", "foot"]
 
 stemming(["consult", "consultant", "consulting"]) # outputs ["consult", "consult", "consult"]

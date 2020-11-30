@@ -105,6 +105,21 @@ def strip_stopwords(tokens, stopwords):
     return list(set(tokens) - set(stopwords))        
 
 
+def strip_min_max_tokens(tokens, remove_less_than=0, remove_more_than=20):
+    """
+    Removes tokens smaller than 0 (default) or greater than 20 (default) in length. 
+
+    Input:
+    tokens (list)
+    remove_less_than (int): States the smallest token length to keep
+    remove_more_than (int): States the largest token length to keep
+    
+    Returns:
+    A list of tokens who's length is between the smallest and largest lengths stated
+    """
+    return [token for token in tokens if remove_less_than <=  len(token) <= remove_more_than]
+
+
 def lemantization(tokens):
     """
     Input:
@@ -197,6 +212,8 @@ def preprocess(text, n_grams=(1, 1), remove_accents=False, lower=False, remove_l
 
     if len(remove_custom_stopwords) > 0:
         tokens = strip_stopwords(tokens, remove_custom_stopwords)
+
+    tokens = strip_min_max_tokens(tokens, remove_less_than, remove_more_than)
 
     if lemma is True:
         tokens = lemantization(tokens)
