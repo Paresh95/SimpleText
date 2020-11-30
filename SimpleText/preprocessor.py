@@ -19,14 +19,24 @@ stop_words = list(stopwords.words('english'))
 
 # define functions 
 
-def strip_accents(text):
-    """This function strips accents from strings.
-
+def lowercase(text):
+    """
     Input:
-    text (string): A text string
-
+    text (string)
+    
     Returns:
-    text (string): text without accents
+    Lowercased text string
+    """
+    return text.lower()
+
+
+def strip_accents(text):
+    """
+    Input:
+    text (string)
+    
+    Returns:
+    text (string): Text without accents
     """
     try:
         text = unicode(text, 'utf-8')
@@ -38,16 +48,94 @@ def strip_accents(text):
     return str(text)
 
 
-def get_ngrams(text, n_grams):
-    """Takes text and returns a list of the ngrams
+def strip_punctuation(text):
+    """
+    Input:
+    text (string)
+    
+    Returns:
+    Text string without punctuation
+    """
+    return text.rstrip().translate(str.maketrans('', '', string.punctuation))
 
-    Parameters:
-    text (string): a string of text
-    n_grams (tuple): specifies the number of ngrams e.g. (1,2) would be unigrams
-                     and bigrams, (1,1) would be unigrams.
+    
+def strip_url(text):  
+    """
+    Input:
+    text (string)
+    
+    Returns:
+    Text string without url
+    """
+    return re.sub(r"http\S+", '', text)
+    
+
+def tokenise(text):
+    """
+    Input:
+    text (string)
+    
+    Returns:
+    A list of tokens
+    """
+    return text.split()
+
+
+def strip_alpha_numeric_characters(tokens):
+    """
+    Input:
+    tokens (list)
+    
+    Returns:
+    A list of tokens without alpha numeric characters
+    """
+    
+    return [token for token in tokens if token.isalpha()]        
+
+
+def strip_stopwords(tokens, stopwords):
+    """
+    Input:
+    tokens (list)
+    stopwords (list)
+    
+    Returns:
+    A list of tokens without stopwords
+    """
+    return list(set(tokens) - set(stop_words))        
+
+
+def lemantization(tokens):
+    """
+    Input:
+    tokens (list)
+    
+    Returns:
+    A list of lemantized tokens
+    """
+    return [WordNetLemmatizer().lemmatize(token) for token in tokens]
+ 
+    
+def stemming(tokens):
+    """
+    Input:
+    tokens (list)
 
     Returns:
-    ngrams_list(list): a list of the ngrams
+    A list of stemmed tokens. The Porter Stemming algorithm is used. 
+    """
+    return [PorterStemmer().stem(token) for token in tokens]   
+
+  
+def get_ngrams(text, n_grams):
+    """
+    Parameters:
+    text (string): A string of text
+    n_grams (tuple): Specifies the number of ngrams e.g. (1,2) would be unigrams
+                     and bigrams, (1,1) would be unigrams.
+                     
+    Returns:
+    ngrams_list(list): A list of the ngrams
     """
     ngrams_list = []
     for n in range(n_grams[0], n_grams[1]+1):
@@ -66,58 +154,55 @@ def get_ngrams(text, n_grams):
 def preprocess(text, n_grams=(1, 1), remove_accents=False, lower=False, remove_less_than=0,
                remove_more_than=20, remove_punct=False, remove_alpha=False, remove_stopwords=False,
                remove_custom_stopwords=[], lemma=False, stem=False, remove_url=False):
-    """Takes text and outputs a pre-processed list of tokens.
-
-    Parameters:
-    text (string): a string of text
-    n_grams (tuple): specifies the number of ngrams e.g. (1,2) would be unigrams and bigrams,
+    """Preprocesses text into a list of cleaned tokens.
+    
+    Input:
+    text (string): A string of text
+    n_grams (tuple): Specifies the number of ngrams e.g. (1,2) would be unigrams and bigrams,
                      (1,1) would be unigrams
-    remove_accents (boolean): removes accents
-    lower (boolean): lowercases text
-    remove_less_than (int): removes words less than X letters
-    remove_more_than (int): removes words more than X letters
-    remove_punct (boolean): removes punctuation
-    remove_alpha (boolean): removes non-alphabetic tokens
-    remove_stopwords (boolean): removes stopwords
-    remove_custom_stopwords (list): removes custom stopwords
-    lemma (boolean): lemmantises tokens (via the Word Net Lemmantizer algorithm)
-    stem (boolean): stems tokens (via the Porter Stemming algorithm)
-
+    remove_accents (boolean): Removes accents
+    lower (boolean): Lowercases text
+    remove_less_than (int): Removes words less than X letters
+    remove_more_than (int): Removes words more than X letters
+    remove_punct (boolean): Removes punctuation
+    remove_alpha (boolean): Removes non-alphabetic tokens
+    remove_stopwords (boolean): Removes stopwords
+    remove_custom_stopwords (list): Removes custom stopwords
+    lemma (boolean): Lemmantises tokens (via the Word Net Lemmantizer algorithm)
+    stem (boolean): Stems tokens (via the Porter Stemming algorithm)
+    
     Returns:
-    tokens (list): a list of cleaned tokens
+    tokens (list): A list of cleaned tokens
     """
-
-    if remove_custom_stopwords is None:
-        remove_custom_stopwords = []
         
     if lower is True:
-        text = text.lower()
+        text = lowercase(text)
 
     if remove_accents is True:
         text = strip_accents(text)
 
     if remove_punct is True:
-        text = text.rstrip().translate(str.maketrans('', '', string.punctuation))
+        text = strip_punctuation(text)
 
     if remove_url is True:
-        text = re.sub(r"http\S+", '', text )
+        text = strip_url(text)
 
-    tokens = text.split()
+    tokens = tokenise(text)
 
     if remove_alpha is True:
-        tokens = [token for token in tokens if token.isalpha()]
+        tokens = strip_alpha_numeric_characters(tokens)
 
     if remove_stopwords is True:
-        tokens = list(set(tokens) - set(stop_words))
+        tokens = strip_stopwords(tokens, stop_words)
 
     if len(remove_custom_stopwords) > 0:
-        tokens = list(set(tokens) - set(remove_custom_stopwords))
+        tokens = strip_stopwords(tokens, remove_custom_stopwords)
 
     if lemma is True:
-        tokens = [WordNetLemmatizer().lemmatize(token) for token in tokens]
+        tokens = lemantization(tokens)
 
     if stem is True:
-        tokens = [PorterStemmer().stem(token) for token in tokens]
+        tokens = stemming(tokens)
 
     ngrams_list = get_ngrams(text, n_grams)
 
