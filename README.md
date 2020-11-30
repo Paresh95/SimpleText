@@ -9,9 +9,9 @@ Install with:
 pip install SimpleText
 ```
 
-  
+## 1) The preprocess function 
 
-SimpleText makes preprocessing simple with the ```preprocess``` function. This function takes a string as an input and outputs a list of tokens. There are several parameters in the function to help quickly pre-process a string. 
+This function takes a string as an input and outputs a list of tokens. There are several parameters in the function to help quickly pre-process a string. 
 
 **Parameters:**
 
@@ -88,3 +88,8 @@ This outputs:
 ["i'm",'love','the','weather','thi','year','in','espana!',("i'm", 'loving'),('loving', 'the'),('the', weather',
  ('weather', 'this'),('this', 'year'),('year', 'in'),('in', 'espana!')]
 ```
+
+## 2) Individually preprocessing text  
+
+Alternatively, one can also individually apply a preprocessing step without having to use the whole ```preprocess``` function. The functions available are:
+
