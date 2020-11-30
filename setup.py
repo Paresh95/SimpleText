@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="SimpleText",
-    version="1.0.0",
+    version="1.0.1",
     author="Paresh Sharma",
     author_email="paresh7903@gmail.com",
     description="A package to manage textual data in a simple fashion.",

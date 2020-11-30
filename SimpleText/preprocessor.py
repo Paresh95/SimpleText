@@ -102,7 +102,7 @@ def strip_stopwords(tokens, stopwords):
     Returns:
     A list of tokens without stopwords
     """
-    return list(set(tokens) - set(stop_words))        
+    return list(set(tokens) - set(stopwords))        
 
 
 def lemantization(tokens):
