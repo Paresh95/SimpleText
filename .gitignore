@@ -1,5 +1,4 @@
-dist/*
-build/*
-SimpleText.egg-info/*
-pypi_apikey_creds.yaml
+#dist/*
+#build/*
+#SimpleText.egg-info/*
 .DS_Store
